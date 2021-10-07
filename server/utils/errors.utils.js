@@ -1,28 +1,30 @@
-// Registrer errors
-exports.SignUpErrors = (err) => {
+// Erreur d'inscription
+exports.signUpErrors = (err) => {
     let errors = { pseudo: '', email: '', password: '' };
 
     if (err.message.includes('pseudo')) errors.pseudo = 'Pseudo incorrect ou déjà pris';
-    if (err.message.includes('email')) errors.email = 'Email incorrect ou déjà pris';
-    if (err.message.includes('password')) errors.password = 'Le mdp doit faire 6 caractère minimum';
 
-    if (err.code === 11000 && Object.keys(err.keyValue)[0].includes('pseudo')) {
-        errors.pseudo = 'Cet pseudo est déjà pris';
-    }
+    if (err.message.includes('email')) errors.email = 'Email incorrect';
 
-    if (err.code === 11000 && Object.keys(err.keyValue)[0].includes('email')) {
+    if (err.message.includes('password'))
+        errors.password = 'Le mot de passe doit faire 6 caractères minium';
+
+    if (err.code === 11000 && Object.keys(err.keyValue)[0].includes('pseudo'))
+        errors.pseudo = 'Ce pseudo est déjà pris';
+
+    if (err.code === 11000 && Object.keys(err.keyValue)[0].includes('email'))
         errors.email = 'Cet email est déjà enregistré';
-    }
 
     return errors;
 };
 
-// Login errors
-exports.SignInErrors = (err) => {
+// Erreur de connexion
+exports.signInErrors = (err) => {
     let errors = { email: '', password: '' };
 
     if (err.message.includes('email')) errors.email = 'Email inconnu';
-    if (err.message.includes('password')) errors.password = 'Le mdp ne correspond pas';
+
+    if (err.message.includes('password')) errors.password = 'Le mot de passe ne correspond pas';
 
     return errors;
 };
