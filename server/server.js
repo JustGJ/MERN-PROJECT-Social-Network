@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const userRoutes = require('./routes/user.routes');
 const postRoutes = require('./routes/post.routes');
 require('dotenv').config({ path: './config/.env' }); // variables d'environnement
@@ -8,6 +9,16 @@ require('./config/db'); // connexion
 const { checkUser, requireAuth } = require('./middleware/auth.middleware');
 
 // (middleware) les datas sont au bon format (bodyparser)
+const corsOption = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    allowedHeaders: ['sessionId', 'Content-Type'],
+    exposedHeaders: ['sessionId'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+};
+
+app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

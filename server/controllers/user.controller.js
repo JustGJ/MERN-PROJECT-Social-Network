@@ -69,30 +69,23 @@ exports.follow = async (req, res) => {
 
     try {
         // Ajout à la liste des followers (si on est suivit)
-        await UserModel.findByIdAndUpdate(
+        const user = await UserModel.findByIdAndUpdate(
             req.params.id, // id de la personne qui est suivie
             { $addToSet: { following: req.body.idToFollow } }, // Update (addToSet : on rajoute l'id de la personne qui veut nous suivre dans following)
-            { new: true, upsert: true },
-            (err, docs) => {
-                // Si il n'y a pas d'err, on continue pour incrémenter l'autre follower (on ne return pas)
-                if (!err) res.status(201).json(docs);
-                else return res.status(400).json(err);
-            }
+            { new: true, upsert: true }
         );
+
         // Ajout à la liste des follwing (incrémente le Array de la personne qui nous a suivit)
         await UserModel.findByIdAndUpdate(
             req.body.idToFollow, //id de la personne qui nous a suivit
             {
                 $addToSet: { followers: req.params.id }, // addToSet rajoute a ce qu'on a déjà
             },
-            { new: true, upsert: true },
-            (err, docs) => {
-                // if (!err) res.status(201).json(docs);
-                if (err) return res.status(400).json({ message: err });
-            }
+            { new: true, upsert: true }
         );
+        res.send(user);
     } catch (err) {
-        if (err) return res.status(500).json({ message: err });
+        if (err) res.status(500).json({ message: err });
     }
 };
 
@@ -104,15 +97,10 @@ exports.unfollow = async (req, res) => {
 
     try {
         // Ajout à la liste des followers (si on est suivit)
-        await UserModel.findByIdAndUpdate(
+        const user = await UserModel.findByIdAndUpdate(
             req.params.id, // id de la personne qui est suivie
             { $pull: { following: req.body.idToUnfollow } }, // Update pull: retire l'id de la personne qui veut nous suivre dans following)
-            { new: true, upsert: true },
-            (err, docs) => {
-                // Si il n'y a pas d'err, on continue pour incrémenter l'autre follower (on ne return pas)
-                if (!err) res.status(201).json(docs);
-                else return res.status(400).json(err);
-            }
+            { new: true, upsert: true }
         );
         // Ajout à la liste des follwing (incrémente le Array de la personne qui nous a suivit)
         await UserModel.findByIdAndUpdate(
@@ -120,13 +108,10 @@ exports.unfollow = async (req, res) => {
             {
                 $pull: { followers: req.params.id }, // pull = enleve a ce qu'on a déjà
             },
-            { new: true, upsert: true },
-            (err, docs) => {
-                // if (!err) res.status(201).json(docs);
-                if (err) return res.status(400).json({ message: err });
-            }
+            { new: true, upsert: true }
         );
+        res.send(user);
     } catch (err) {
-        if (err) return res.status(500).json({ message: err });
+        if (err) res.status(500).json({ message: err });
     }
 };

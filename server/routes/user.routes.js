@@ -20,6 +20,6 @@ router.patch('/follow/:id', userController.follow);
 router.patch('/unfollow/:id', userController.unfollow);
 
 // Upload image
-// router.post('/upload', upload.single('file'), uploadController.uploadProfil);
+router.post('/upload', upload.single('file'), uploadController.uploadProfil);
 
 module.exports = router;
