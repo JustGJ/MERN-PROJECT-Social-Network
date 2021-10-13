@@ -10,8 +10,12 @@ import rootReducer from './redux/reducers';
 // dev tools
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
+import { getUsers } from './redux/actions/users.actions';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger)));
+
+// On récupère tout les utilisateurs au lancement de l'application
+store.dispatch(getUsers());
 
 ReactDOM.render(
     <Provider store={store}>
