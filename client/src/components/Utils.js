@@ -14,3 +14,14 @@ export const dateParser = (num) => {
 
     return date.toString();
 };
+
+// Vérifie si vide
+export const isEmpty = (value) => {
+    // Return true si c'est vide
+    return (
+        value === undefined ||
+        value === null ||
+        (typeof value === 'object' && Object.keys(value).length === 0) ||
+        (typeof value === 'string' && value.trim().length === 0)
+    );
+};
