@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dateParser, isEmpty } from '../Utils';
 import FollowHandler from '../Profil/FollowHandler';
 import LikeButton from './LikeButton';
+import { updatePost } from '../../redux/actions/post.actions';
 // import { updatePost } from '../../redux/actions/post.actions';
-// import DeleteCard from './DeleteCard';
+import DeleteCard from './DeleteCard';
 // import CardComments from './CardComments';
 
 const Card = ({ post }) => {
@@ -16,12 +17,12 @@ const Card = ({ post }) => {
     const userData = useSelector((state) => state.userReducer);
     const dispatch = useDispatch();
 
-    // const updateItem = () => {
-    //     if (textUpdate) {
-    //         dispatch(updatePost(post._id, textUpdate));
-    //     }
-    //     setIsUpdated(false);
-    // };
+    const updateItem = () => {
+        if (textUpdate) {
+            dispatch(updatePost(post._id, textUpdate));
+        }
+        setIsUpdated(false);
+    };
 
     useEffect(() => {
         !isEmpty(usersData[0]) && setIsLoading(false);
@@ -56,8 +57,9 @@ const Card = ({ post }) => {
                                     {!isEmpty(usersData[0]) &&
                                         usersData
                                             .map((user) => {
-                                                if (user._id === post.posterId) return user.pseudo;
-                                                else return null;
+                                                return user._id === post.posterId
+                                                    ? user.pseudo
+                                                    : null;
                                             })
                                             .join('')}
                                 </h3>
@@ -74,11 +76,11 @@ const Card = ({ post }) => {
                                     defaultValue={post.message}
                                     onChange={(e) => setTextUpdate(e.target.value)}
                                 />
-                                {/* <div className="button-container">
+                                <div className="button-container">
                                     <button className="btn" onClick={updateItem}>
                                         Valider modification
                                     </button>
-                                </div> */}
+                                </div>
                             </div>
                         )}
                         {post.picture && (
@@ -97,9 +99,9 @@ const Card = ({ post }) => {
                         {userData._id === post.posterId && (
                             <div className="button-container">
                                 <div onClick={() => setIsUpdated(!isUpdated)}>
-                                    <img src="./img/icons/edit.svg" alt="edit" />
+                                    <img src=".img/icons/edit.svg" alt="edit" />
                                 </div>
-                                {/* <DeleteCard id={post._id} /> */}
+                                <DeleteCard id={post._id} />
                             </div>
                         )}
                         {/* AFFICHAGE FOOTER */}

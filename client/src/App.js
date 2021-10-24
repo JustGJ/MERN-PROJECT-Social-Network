@@ -23,7 +23,7 @@ const App = () => {
 
         // Si on a un utilisateur, on récupère ses informations
         if (uid) dispatch(getUser(uid));
-    }, [uid]);
+    }, [uid, dispatch]);
 
     return (
         <UidContext.Provider value={uid}>
