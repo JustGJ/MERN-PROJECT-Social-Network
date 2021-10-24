@@ -100,7 +100,7 @@ exports.likePost = async (req, res) => {
 
     try {
         // Ajout de likes au post (on transmet l'id de la personne qui a liké)
-        await PostModel.findByIdAndUpdate(
+        PostModel.findByIdAndUpdate(
             req.params.id,
             {
                 $addToSet: { likers: req.body.id },
@@ -111,7 +111,7 @@ exports.likePost = async (req, res) => {
             }
         );
         // Ajout de likes à l'utilisateur (post qu'il a aimé)
-        await UserModel.findByIdAndUpdate(
+        UserModel.findByIdAndUpdate(
             req.body.id,
             {
                 $addToSet: { likes: req.params.id },
@@ -134,7 +134,7 @@ exports.unlikePost = async (req, res) => {
 
     try {
         // Ajout de likes au post (on transmet l'id de la personne qui a liké)
-        await PostModel.findByIdAndUpdate(
+        PostModel.findByIdAndUpdate(
             req.params.id,
             {
                 $pull: { likers: req.body.id },
@@ -145,7 +145,7 @@ exports.unlikePost = async (req, res) => {
             }
         );
         // Ajout de likes à l'utilisateur (post qu'il a aimé)
-        await UserModel.findByIdAndUpdate(
+        UserModel.findByIdAndUpdate(
             req.body.id,
             {
                 $pull: { likes: req.params.id },

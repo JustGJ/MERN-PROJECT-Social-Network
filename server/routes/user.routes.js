@@ -11,7 +11,6 @@ router.post('/register', authController.signUp); // S'inscrire
 router.post('/login', authController.signIn); // Se loguer
 router.get('/logout', authController.signOut); // Deco (retire le cookie token)
 
-// == (User database)
 router.get('/', userController.getAllUsers);
 router.get('/:id', userController.userInfo);
 router.put('/:id', userController.updateUser);

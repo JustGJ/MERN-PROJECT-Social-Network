@@ -30,7 +30,7 @@ exports.updateUser = async (req, res) => {
 
     // On cherche dans la DB si l'id correspond, et on modifie sa bio
     try {
-        await UserModel.findOneAndUpdate(
+        UserModel.findOneAndUpdate(
             filter,
             update,
             {
