@@ -5,12 +5,13 @@ export const GET_POST = 'GET_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 
-export const getPosts = () => {
+export const getPosts = (num) => {
     return (dispatch) => {
         return axios
             .get(`${process.env.REACT_APP_API_URL}api/post`)
             .then((res) => {
-                dispatch({ type: GET_POST, payload: res.data });
+                const array = res.data.slice(0, num);
+                dispatch({ type: GET_POST, payload: array });
             })
             .catch((err) => console.log(err));
     };
