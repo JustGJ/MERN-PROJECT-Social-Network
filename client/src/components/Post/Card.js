@@ -4,9 +4,8 @@ import { dateParser, isEmpty } from '../Utils';
 import FollowHandler from '../Profil/FollowHandler';
 import LikeButton from './LikeButton';
 import { updatePost } from '../../redux/actions/post.actions';
-// import { updatePost } from '../../redux/actions/post.actions';
 import DeleteCard from './DeleteCard';
-// import CardComments from './CardComments';
+import CardComments from './CardComments';
 
 const Card = ({ post }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -117,7 +116,7 @@ const Card = ({ post }) => {
                             <LikeButton post={post} />
                             <img src="./img/icons/share.svg" alt="share" />
                         </div>
-                        {/* {showComments && <CardComments post={post} />} */}
+                        {showComments && <CardComments post={post} />}
                     </div>
                 </>
             )}
