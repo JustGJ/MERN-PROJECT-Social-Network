@@ -25,7 +25,6 @@ exports.signUp = async (req, res) => {
 // == Connexion : Ajout du token dans le cookie
 exports.signIn = async (req, res) => {
     const { email, password } = req.body;
-
     try {
         const user = await UserModel.login(email, password); //Vérifie si l'email et password correspondent à la DB
         const token = createToken(user._id); // Création token

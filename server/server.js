@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.get('/', (res, res) => res.send('good'));
 // (JWT) Sur n'importe quelle route, on vérifie si l'user a un id token etc
 app.get('*', checkUser);
 app.get('/jwtid', requireAuth, (req, res) => {

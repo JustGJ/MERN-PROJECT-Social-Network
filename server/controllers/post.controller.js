@@ -194,7 +194,7 @@ exports.editCommentPost = (req, res) => {
         return res.status(400).send('ID unknown : ' + req.params.id);
 
     try {
-        return PostModel.findById(
+        PostModel.findById(
             req.params.id, // id du post
             (err, docs) => {
                 // On parcourt nos commentaires dans docs.comments
