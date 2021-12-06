@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 
 // == Connexion à la DB
 mongoose
-    .connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    .connect(
+        'mongodb+srv://' + process.env.DB_USER_PASS + '@cluster0.lauwp.mongodb.net/MERN-PROJECT',
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
     .then(() => {
         console.log('Connected to MongoDB');
     })
