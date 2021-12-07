@@ -11,28 +11,16 @@ const path = require('path');
 const { checkUser, requireAuth } = require('./middleware/auth.middleware');
 
 // (middleware) les datas sont au bon format (bodyparser)
-// const corsOption = {
-//     origin: process.env.CLIENT_URL,
-//     credentials: true,
-//     allowedHeaders: ['sessionId', 'Content-Type'],
-//     exposedHeaders: ['sessionId'],
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     preflightContinue: false,
-// };
+const corsOption = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    allowedHeaders: ['sessionId', 'Content-Type'],
+    exposedHeaders: ['sessionId'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+};
 
-// app.use(cors(corsOption));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Set-Cookie',
-        'sessionId',
-        'Content-Type'
-    );
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS, PUT, DELETE');
-    next();
-});
+app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
