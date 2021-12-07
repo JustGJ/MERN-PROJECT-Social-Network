@@ -11,19 +11,33 @@ const path = require('path');
 const { checkUser, requireAuth } = require('./middleware/auth.middleware');
 
 // (middleware) les datas sont au bon format (bodyparser)
-const corsOption = {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-    allowedHeaders: ['sessionId', 'Content-Type'],
-    exposedHeaders: ['sessionId'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-};
+// const corsOption = {
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//     allowedHeaders: ['sessionId', 'Content-Type'],
+//     exposedHeaders: ['sessionId'],
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     preflightContinue: false,
+// };
 
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+    // on autorise explicitement le domaine du front
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // on autorise le partage du cookie
+    res.header('Access-Control-Allow-Credentials', true);
+    // on autorise le partage de ressources entre origines
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Set-Cookie'
+    );
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS, PUT, DELETE');
+    next();
+});
 
 // app.get('/', (res, res) => res.send('good'));
 // (JWT) Sur n'importe quelle route, on vérifie si l'user a un id token etc
