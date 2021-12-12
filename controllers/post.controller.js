@@ -41,7 +41,7 @@ exports.createPost = async (req, res) => {
         // On crée le chemin de l'image
         await pipeline(
             req.file.stream,
-            fs.createWriteStream(`${__dirname}/../../client/public/uploads/posts/${fileName}`)
+            fs.createWriteStream(`${__dirname}/../client/public/uploads/posts/${fileName}`)
         );
     }
 
