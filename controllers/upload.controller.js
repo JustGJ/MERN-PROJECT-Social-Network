@@ -28,7 +28,7 @@ exports.uploadProfil = async (req, res) => {
     // On crée le chemin de l'image
     await pipeline(
         req.file.stream,
-        fs.createWriteStream(`${__dirname}/../../client/public/uploads/profil/${fileName}`)
+        fs.createWriteStream(`${__dirname}/../client/public/uploads/profil/${fileName}`)
     );
 
     // On envoie à MongoDB

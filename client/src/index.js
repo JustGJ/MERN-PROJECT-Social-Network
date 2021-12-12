@@ -8,14 +8,16 @@ import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers';
 
 // dev tools
-import { composeWithDevTools } from 'redux-devtools-extension';
-import logger from 'redux-logger';
+// import { composeWithDevTools } from 'redux-devtools-extension';
+// import logger from 'redux-logger';
 import { getUsers } from './redux/actions/users.actions';
+import { getPosts } from './redux/actions/post.actions';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger)));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // On récupère tout les utilisateurs au lancement de l'application
 store.dispatch(getUsers());
+store.dispatch(getPosts());
 
 ReactDOM.render(
     <Provider store={store}>
