@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { addPost, getPosts } from '../../redux/actions/post.actions';
 import { isEmpty, timestampParser } from '../Utils';
 
 const NewPostForm = () => {
@@ -10,6 +11,7 @@ const NewPostForm = () => {
     const [video, setVideo] = useState('');
     const [file, setFile] = useState('');
     const userData = useSelector((state) => state.userReducer);
+    const dispatch = useDispatch();
 
     const handleVideo = () => {
         let findLink = message.split(' ');
@@ -29,8 +31,28 @@ const NewPostForm = () => {
         handleVideo();
     }, [userData, message, video]);
 
-    const handlePicture = () => {};
-    const handlePost = () => {};
+    const handlePicture = (e) => {
+        // Send image
+        setPostPicture(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
+        // On ne peut pas poster une video et une image
+        setVideo('');
+    };
+    const handlePost = async () => {
+        if (message || postPicture || video) {
+            const data = new FormData();
+            data.append('posterId', userData._id);
+            data.append('message', message);
+            if (file) data.append('file', file);
+            data.append('video', video);
+
+            await dispatch(addPost(data));
+            dispatch(getPosts());
+            cancelPost();
+        } else {
+            alert('Veuillez entrer un message');
+        }
+    };
     const cancelPost = () => {
         setMessage('');
         setPostPicture('');

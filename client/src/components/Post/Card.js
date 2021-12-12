@@ -33,7 +33,6 @@ const Card = ({ post }) => {
                 <i className="fas fa-spinner fa-spin"></i>
             ) : (
                 <>
-                    {/* AFFICHAGE PHOTO DE PROFIL DU USER AYANT POST */}
                     <div className="card-left">
                         <img
                             src={
@@ -48,7 +47,6 @@ const Card = ({ post }) => {
                             alt="poster-pic"
                         />
                     </div>
-                    {/* AFFICHAGE PSEUDO DU USER AYANT POST */}
                     <div className="card-right">
                         <div className="card-header">
                             <div className="pseudo">
@@ -56,9 +54,8 @@ const Card = ({ post }) => {
                                     {!isEmpty(usersData[0]) &&
                                         usersData
                                             .map((user) => {
-                                                return user._id === post.posterId
-                                                    ? user.pseudo
-                                                    : null;
+                                                if (user._id === post.posterId) return user.pseudo;
+                                                else return null;
                                             })
                                             .join('')}
                                 </h3>
@@ -98,12 +95,11 @@ const Card = ({ post }) => {
                         {userData._id === post.posterId && (
                             <div className="button-container">
                                 <div onClick={() => setIsUpdated(!isUpdated)}>
-                                    <img src=".img/icons/edit.svg" alt="edit" />
+                                    <img src="./img/icons/edit.svg" alt="edit" />
                                 </div>
                                 <DeleteCard id={post._id} />
                             </div>
                         )}
-                        {/* AFFICHAGE FOOTER */}
                         <div className="card-footer">
                             <div className="comment-icon">
                                 <img
