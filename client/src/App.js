@@ -9,6 +9,7 @@ const App = () => {
     const [uid, setUid] = useState(null);
     const dispatch = useDispatch();
 
+    console.log(process.env.REACT_APP_API_URL);
     useEffect(() => {
         const fetchToken = async () => {
             await axios({
