@@ -8,13 +8,26 @@ const NewPostForm = () => {
     const [message, setMessage] = useState('');
     const [postPicture, setPostPicture] = useState(null);
     const [video, setVideo] = useState('');
-    const [file, setFile] = useState();
+    const [file, setFile] = useState('');
     const userData = useSelector((state) => state.userReducer);
 
-    console.log(userData);
+    const handleVideo = () => {
+        let findLink = message.split(' ');
+        for (let i = 0; i < findLink.length; i++) {
+            if (findLink[i].includes('https://www.yout') || findLink[i].includes('https://yout')) {
+                let embed = findLink[i].replace('watch?v=', 'embed/');
+                setVideo(embed.split('&')[0]);
+                findLink.splice(i, 1);
+                setMessage(findLink.join(' '));
+                setPostPicture('');
+            }
+        }
+    };
+
     useEffect(() => {
         if (!isEmpty(userData)) setIsLoading(false);
-    }, [userData]);
+        handleVideo();
+    }, [userData, message, video]);
 
     const handlePicture = () => {};
     const handlePost = () => {};
