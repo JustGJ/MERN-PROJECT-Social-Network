@@ -5,6 +5,7 @@ export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const UPDATE_BIO = 'UPDATE_BIO';
 export const FOLLOW_USER = 'FOLLOW_USER';
 export const UNFOLLOW_USER = 'UNFOLLOW_USER';
+export const GET_USER_ERRORS = 'GET_USER_ERRORS';
 
 // Récupère un USER
 export const getUser = (uid) => {
@@ -26,15 +27,20 @@ export const uploadPicture = (data, id) => {
         return axios
             .post(`${process.env.REACT_APP_API_URL}api/user/upload`, data)
             .then((res) => {
-                return (
-                    axios
-                        // On averti le store pour changer l'image en conséquence (on récupère ce qu'on a ajouter à la DB)
-                        .get(`${process.env.REACT_APP_API_URL}api/user/${id}`)
-                        .then((res) => {
-                            // Changement de l'image dans le store
-                            dispatch({ type: UPLOAD_PICTURE, payload: res.data.picture });
-                        })
-                );
+                if (res.data.errors) {
+                    dispatch({ type: GET_USER_ERRORS, payload: res.data.errors });
+                } else {
+                    dispatch({ type: GET_USER_ERRORS, payload: '' });
+                    return (
+                        axios
+                            // On averti le store pour changer l'image en conséquence (on récupère ce qu'on a ajouter à la DB)
+                            .get(`${process.env.REACT_APP_API_URL}api/user/${id}`)
+                            .then((res) => {
+                                // Changement de l'image dans le store
+                                dispatch({ type: UPLOAD_PICTURE, payload: res.data.picture });
+                            })
+                    );
+                }
             })
             .catch((err) => console.log(err));
     };
